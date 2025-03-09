@@ -11,57 +11,6 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel";
-import { NoticeBoard } from "./noticeBoard";
-
-interface Notice {
-    id: string;
-    title: string;
-    content: string;
-    date: string;
-    time?: string;
-    category: "announcement" | "event" | "deadline";
-    isPinned?: boolean;
-}
-
-const notices: Notice[] = [
-    {
-        id: "1",
-        title: "Final Exam Schedule Released",
-        content:
-            "The final examination schedule for the Spring semester has been published. Please check your student portal for detailed information.",
-        date: "2024-05-15",
-        time: "09:00 AM",
-        category: "announcement",
-        isPinned: true,
-    },
-    {
-        id: "2",
-        title: "Annual Science Fair",
-        content:
-            "Join us for the Annual Science Fair where students will showcase their innovative projects. Prizes to be won!",
-        date: "2024-06-10",
-        time: "10:00 AM",
-        category: "event",
-        isPinned: true,
-    },
-    {
-        id: "3",
-        title: "Assignment Submission Deadline",
-        content:
-            "Final project reports for Computer Science 101 must be submitted by end of day.",
-        date: "2024-05-20",
-        time: "11:59 PM",
-        category: "deadline",
-    },
-    {
-        id: "4",
-        title: "Campus Maintenance Notice",
-        content:
-            "The main library will be closed for maintenance this weekend. Online resources will remain accessible.",
-        date: "2024-05-18",
-        category: "announcement",
-    },
-];
 
 const galleryImages: {
     id: number;
@@ -106,19 +55,23 @@ const galleryImages: {
     },
 ];
 
-export default function Hero() {
+export default function Gallery() {
     return (
         <section>
             <Container>
-                <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 lg: items-end">
-                    {/* Carousel */}
-                    <div className="lg:col-span-4 flex justify-center">
-                        <HeroCarousel />
-                    </div>
-                    
-                    {/* Notice Board */}
-                    <div className="lg:col-span-3 flex justify-center">
-                        <NoticeBoard notices={notices} />
+                <div className="flex flex-col justify-center items-start gap-4 mx-4 md:mx-8 lg:mx-16">
+                    <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl mb-6">
+                        Our gallery
+                    </h1>
+                    <p className="text-lg text-gray-600 mb-16 max-w-3xl text-start">
+                        Discover a world of knowledge through our curated
+                        educational resources and images.
+                    </p>
+
+                    <div className="flex flex-col justify-center items-center w-full">
+                        <div className="flex flex-col justify-center items-center w-full max-w-md lg:max-w-2xl">
+                            <GalleryCarousel />
+                        </div>
                     </div>
                 </div>
             </Container>
@@ -126,13 +79,13 @@ export default function Hero() {
     );
 }
 
-export function HeroCarousel() {
+export function GalleryCarousel() {
     return (
         <Carousel
             opts={{
                 align: "start",
             }}
-            className="w-11/12 lg:w-full"
+            className="w-full"
         >
             <CarouselContent>
                 {galleryImages.map((item) => (
@@ -142,9 +95,7 @@ export function HeroCarousel() {
                             className="relative flex flex-col items-center w-full h-56 lg:h-96 rounded-lg overflow-hidden"
                         >
                             <div className="absolute z-10 bottom-10 flex flex-col justify-center items-center">
-                                <p className="text-xl font-semibold text-white">
-                                    {item.caption}
-                                </p>
+                                <p className="text-xl font-semibold text-white">{item.caption}</p>
                             </div>
                             <div className="absolute inset-0">
                                 <Image

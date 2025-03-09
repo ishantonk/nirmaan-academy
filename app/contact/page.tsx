@@ -49,19 +49,19 @@ export default function ContactPage() {
             <div className="flex items-start space-x-4">
               <Building2 className="h-6 w-6 text-site-primary flex-shrink-0 mt-1" />
               <div>
-                <p className="text-site-secondary">545 Mavis Island</p>
-                <p className="text-site-secondary">Chicago, IL 99191</p>
+                <p className="text-site-secondary">Pan Oasis</p>
+                <p className="text-site-secondary">Noida, sector 70</p>
               </div>
             </div>
 
             <div className="flex items-center space-x-4">
               <Phone className="h-6 w-6 text-site-primary flex-shrink-0" />
-              <p className="text-site-secondary">+1 (555) 234-5678</p>
+              <p className="text-site-secondary">+91 9050363676</p>
             </div>
 
             <div className="flex items-center space-x-4">
               <Mail className="h-6 w-6 text-site-primary flex-shrink-0" />
-              <p className="text-site-secondary">hello@example.com</p>
+              <p className="text-site-secondary">support@nirmaanacademy.com</p>
             </div>
           </div>
         </div>

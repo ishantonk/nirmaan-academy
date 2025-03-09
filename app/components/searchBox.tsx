@@ -26,7 +26,7 @@ export default function SearchBox() {
                         />
                         <Button
                             type="submit"
-                            className="rounded-l-none bg-site-primary hover:bg-site-secondary transition-colors duration-200 cursor-pointer"
+                            className="rounded-l-none bg-site-primary hover:bg-site-secondary text-site-accent transition-colors duration-200 cursor-pointer"
                         >
                             <Search className="h-5 w-5" />
                         </Button>

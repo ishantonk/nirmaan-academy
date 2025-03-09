@@ -20,7 +20,7 @@ export default function Footer() {
     };
 
     return (
-        <footer className="flex flex-col justify-center items-center bg-site-primary text-site-highlight px-4 py-12">
+        <footer className="flex flex-col justify-center items-center bg-site-primary text-site-highlight">
             <Container>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {/* Logo and Contact Info */}
@@ -29,14 +29,14 @@ export default function Footer() {
                         <div className="flex items-center space-x-2">
                             <Link
                                 href="/"
-                                className="flex items-center space-x-4"
+                                className="flex flex-col justify-center items-start space-x-4"
                             >
                                 <div className="relative">
                                     <Image
                                         src="/logo.png"
                                         alt="Logo"
-                                        width={56}
-                                        height={56}
+                                        width={130}
+                                        height={130}
                                     />
                                 </div>
                                 <span className="text-lg font-medium text-site-highlight">
@@ -49,18 +49,15 @@ export default function Footer() {
                         <div className="space-y-4 text-site-accent">
                             <div className="flex items-start space-x-3">
                                 <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                                <span>
-                                    A-50, Raj Nagar extension, Ghaziabad, UP
-                                    201017
-                                </span>
+                                <span>Pan Oasis Sector 70 Noida</span>
                             </div>
                             <div className="flex items-center space-x-3">
                                 <Phone className="h-5 w-5 flex-shrink-0" />
-                                <span>+918586826126</span>
+                                <span>+91 9050363676</span>
                             </div>
                             <div className="flex items-center space-x-3">
                                 <Mail className="h-5 w-5 flex-shrink-0" />
-                                <span>Professionalmentorss@gmail.com</span>
+                                <span>support@nirmaanacademy.com</span>
                             </div>
                         </div>
                     </div>
@@ -73,10 +70,10 @@ export default function Footer() {
                         <ul className="space-y-4 text-site-accent">
                             <li>
                                 <Link
-                                    href="/shop"
+                                    href="/courses"
                                     className="hover:text-white transition-colors"
                                 >
-                                    Shop
+                                    Videos lessons
                                 </Link>
                             </li>
                             <li>
@@ -122,7 +119,7 @@ export default function Footer() {
                         <ul className="space-y-4 text-site-accent">
                             <li>
                                 <Link
-                                    href="/blog"
+                                    href="/blogs"
                                     className="hover:text-white transition-colors"
                                 >
                                     Latest Blog
@@ -130,7 +127,7 @@ export default function Footer() {
                             </li>
                             <li>
                                 <Link
-                                    href="/privacy"
+                                    href="/privacy-policy"
                                     className="hover:text-white transition-colors"
                                 >
                                     Privacy Policy
@@ -138,7 +135,7 @@ export default function Footer() {
                             </li>
                             <li>
                                 <Link
-                                    href="/returns"
+                                    href="/refund-policy"
                                     className="hover:text-white transition-colors"
                                 >
                                     Refund & Returns Policy
@@ -146,7 +143,7 @@ export default function Footer() {
                             </li>
                             <li>
                                 <Link
-                                    href="/shipping"
+                                    href="/privacy-policy"
                                     className="hover:text-white transition-colors"
                                 >
                                     Shipping and Delivery Policy
@@ -154,7 +151,7 @@ export default function Footer() {
                             </li>
                             <li>
                                 <Link
-                                    href="/terms"
+                                    href="/privacy-policy"
                                     className="hover:text-white transition-colors"
                                 >
                                     Terms & Condition
@@ -203,8 +200,8 @@ export default function Footer() {
 
                 <div className="mt-12 pt-8 border-t border-site-secondary text-center text-site-accent text-sm">
                     <p>
-                        © {new Date().getFullYear()} Nirmaan Academy. All
-                        rights reserved.
+                        © {new Date().getFullYear()} Nirmaan Academy. All rights
+                        reserved.
                     </p>
                 </div>
             </Container>

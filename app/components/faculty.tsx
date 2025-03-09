@@ -1,110 +1,106 @@
-'use client'
+"use client";
 
 import Image from "next/image";
+import Container from "./container";
+import * as React from "react";
+
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel";
+
+const facultyMembers: { name: string; role: string; image: string }[] = [
+    {
+        name: "Michael Foster",
+        role: "Co-Founder / CTO",
+        image: "/1.png",
+    },
+    {
+        name: "Dries Vincent",
+        role: "Business Relations",
+        image: "/2.png",
+    },
+    {
+        name: "Lindsay Walton",
+        role: "Front-end Developer",
+        image: "/3.png",
+    },
+    {
+        name: "Courtney Henry",
+        role: "Designer",
+        image: "/4.png",
+    },
+    {
+        name: "Tom Cook",
+        role: "Director of Product",
+        image: "/5.png",
+    },
+    {
+        name: "Whitney Francis",
+        role: "Copywriter",
+        image: "/2.png",
+    },
+];
 
 export default function Faculty() {
     return (
-        <section className="my-8">
-            <div id="container" className="px-16 py-8">
-                <div className="flex flex-col items-center justify-center w-full gap-2">
-                    <div className="flex flex-row items-center justify-center w-full gap-x-4">
-                        <div className="h-[1px] w-full bg-neutral-400" />
-                        <div className="text-nowrap text-3xl font-semibold">
-                            <span>OUR FACULTY</span>
-                        </div>
-                        <div className="h-[1px] w-full bg-neutral-400" />
-                    </div>
-                </div>
+        <section>
+            <Container>
+                <div className="flex flex-col justify-center items-start gap-4 mx-4 md:mx-8 lg:mx-16">
+                    <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl mb-6">
+                        Our faculty
+                    </h1>
+                    <p className="text-lg text-gray-600 mb-16 max-w-3xl text-start">
+                        We&apos;re a dynamic group of individuals who are
+                        passionate about what we do and dedicated to delivering
+                        the best results for our clients.
+                    </p>
 
-                <div className="flex flex-col items-center justify-center p-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 items-center justify-between gap-x-4">
-                        <div
-                            id="card"
-                            className="flex flex-col items-center justify-center w-64"
-                        >
-                            <div className="">
-                                <Image
-                                    src={"/4.png"}
-                                    alt="course"
-                                    width={240}
-                                    height={240}
-                                    className="rounded-lg"
-                                />
-                            </div>
-                            <div className="py-4">
-                                <div className="pb-2">
-                                    <p className="text-neutral-600 text-sm">
-                                        CMA SUMIT RASTOGI
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            id="card"
-                            className="flex flex-col items-center justify-center w-64"
-                        >
-                            <div className="">
-                                <Image
-                                    src={"/1.png"}
-                                    alt="course"
-                                    width={240}
-                                    height={240}
-                                    className="rounded-lg"
-                                />
-                            </div>
-                            <div className="py-4">
-                                <div className="pb-2">
-                                    <p className="text-neutral-600 text-sm">
-                                        CMA SUMIT RASTOGI
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            id="card"
-                            className="flex flex-col items-center justify-center w-64"
-                        >
-                            <div className="">
-                                <Image
-                                    src={"/2.png"}
-                                    alt="course"
-                                    width={240}
-                                    height={240}
-                                    className="rounded-lg"
-                                />
-                            </div>
-                            <div className="py-4">
-                                <div className="pb-2">
-                                    <p className="text-neutral-600 text-sm">
-                                        CMA SUMIT RASTOGI
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            id="card"
-                            className="flex flex-col items-center justify-center w-64"
-                        >
-                            <div className="">
-                                <Image
-                                    src={"/5.png"}
-                                    alt="course"
-                                    width={240}
-                                    height={240}
-                                    className="rounded-lg"
-                                />
-                            </div>
-                            <div className="py-4">
-                                <div className="pb-2">
-                                    <p className="text-neutral-600 text-sm">
-                                        CMA SUMIT RASTOGI
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <FacultyCarousel />
                 </div>
-            </div>
+            </Container>
         </section>
+    );
+}
+
+export function FacultyCarousel() {
+    return (
+        <Carousel
+            opts={{
+                align: "start",
+            }}
+            className="w-full"
+        >
+            <CarouselContent>
+                {facultyMembers.map((member, index) => (
+                    <CarouselItem
+                        key={index}
+                        className="basis-1/2 lg:basis-1/4"
+                    >
+                        <div key={index} className="flex flex-col items-center">
+                            <div className="relative w-32 h-32 mb-4">
+                                <Image
+                                    src={member.image}
+                                    alt={member.name}
+                                    fill
+                                    className="rounded-full object-cover"
+                                />
+                            </div>
+                            <h3 className="text-lg font-medium text-gray-900">
+                                {member.name}
+                            </h3>
+                            <p className="text-sm text-gray-500">
+                                {member.role}
+                            </p>
+                        </div>
+                    </CarouselItem>
+                ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+        </Carousel>
     );
 }
