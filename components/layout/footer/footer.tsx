@@ -16,7 +16,7 @@ const FooterNewsletter = dynamic(() => import("./footer-newsletter"), {
 
 export default function Footer() {
     return (
-        <footer className="bg-background border-t">
+        <footer className="bg-primary-foreground border-t">
             <Container className="my-8">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 my-8">
                     <div className="flex flex-col justify-center items-start gap-y-4">
