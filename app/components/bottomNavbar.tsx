@@ -1,8 +1,6 @@
 "use client";
 
 import { Heart, Store } from "lucide-react";
-import AccountSheet from "./features/accountSheet";
-import CartSheet from "./features/cartSheet";
 
 export default function BottomNavbar() {
     return (

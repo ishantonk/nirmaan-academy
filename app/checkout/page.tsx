@@ -4,11 +4,28 @@ import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ShoppingCart, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { cartData, courses } from "@/dummy-data";
+import Image from "next/image";
 
 export default function CheckoutPage() {
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState<
+        Array<{
+            id: number;
+            title: string;
+            slug: string;
+            category: string;
+            duration: string;
+            level: string;
+            language: string;
+            faculty: string;
+            price: number;
+            discountedPrice: number;
+            isOnSale: boolean;
+            description: string;
+            thumbnail: string;
+        }>
+    >([]);
     const [coupon, setCoupon] = useState("");
 
     useEffect(() => {
@@ -54,7 +71,7 @@ export default function CheckoutPage() {
                             key={item.id}
                             className="flex items-center gap-4 p-4"
                         >
-                            <img
+                            <Image
                                 src={item.thumbnail}
                                 alt={item.title}
                                 className="w-24 h-24 object-cover"

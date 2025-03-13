@@ -7,7 +7,9 @@ import { useParams } from "next/navigation";
 
 export default function CourseDetailPage() {
     const { slug } = useParams();
-    const [courseDetails, setCourseDetails] = useState(null);
+    const [courseDetails, setCourseDetails] = useState<
+        (typeof courses)[0] | null
+    >(null);
 
     useEffect(() => {
         getCourseDetails();

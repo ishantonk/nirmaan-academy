@@ -5,9 +5,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { cartData, courses } from "@/dummy-data";
+import Image from "next/image";
 
 export default function CartList() {
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState<
+        { id: number; title: string; price: number; thumbnail: string }[]
+    >([]);
 
     useEffect(() => {
         getCartCourses();
@@ -47,9 +50,11 @@ export default function CartList() {
                             key={item.id}
                             className="flex items-center gap-4 p-4"
                         >
-                            <img
+                            <Image
                                 src={item.thumbnail}
                                 alt={item.title}
+                                width={200}
+                                height={200}
                                 className="w-24 h-24 object-cover"
                             />
                             <CardContent className="flex-1">

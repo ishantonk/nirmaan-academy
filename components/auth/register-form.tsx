@@ -36,7 +36,7 @@ export default function RegisterForm() {
         try {
             console.log("Logging in with:", data);
             // Add authentication logic here (e.g., API call)
-        } catch (error) {
+        } catch {
             setError("Invalid email or password");
         }
     };
