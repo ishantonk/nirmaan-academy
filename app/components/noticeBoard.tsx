@@ -15,12 +15,13 @@ interface Notice {
     isPinned?: boolean;
 }
 
-interface NoticeBoardProps {
+export function NoticeBoard({
+    notices,
+    className,
+}: {
     notices: Notice[];
     className?: string;
-}
-
-export function NoticeBoard({ notices, className }: NoticeBoardProps) {
+}) {
     const pinnedNotices = notices.filter((notice) => notice.isPinned);
     const regularNotices = notices.filter((notice) => !notice.isPinned);
 

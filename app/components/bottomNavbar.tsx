@@ -25,10 +25,10 @@ export default function BottomNavbar() {
                     </button>
                 </div>
                 <div className="flex flex-col flex-1/4 items-center justify-center">
-                    <CartSheet />
+                    {/* <CartSheet /> */}
                 </div>
                 <div className="flex flex-col flex-1/4 items-center justify-center">
-                    <AccountSheet />
+                    {/* <AccountSheet /> */}
                 </div>
             </div>
         </div>

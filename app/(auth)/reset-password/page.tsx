@@ -1,0 +1,1 @@
+// Users reset their password via a token link.

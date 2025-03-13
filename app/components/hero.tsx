@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Container from "./container";
 import * as React from "react";
 
 import {
@@ -12,56 +11,8 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel";
 import { NoticeBoard } from "./noticeBoard";
+import { notices } from "@/dummy-data";
 
-interface Notice {
-    id: string;
-    title: string;
-    content: string;
-    date: string;
-    time?: string;
-    category: "announcement" | "event" | "deadline";
-    isPinned?: boolean;
-}
-
-const notices: Notice[] = [
-    {
-        id: "1",
-        title: "Final Exam Schedule Released",
-        content:
-            "The final examination schedule for the Spring semester has been published. Please check your student portal for detailed information.",
-        date: "2024-05-15",
-        time: "09:00 AM",
-        category: "announcement",
-        isPinned: true,
-    },
-    {
-        id: "2",
-        title: "Annual Science Fair",
-        content:
-            "Join us for the Annual Science Fair where students will showcase their innovative projects. Prizes to be won!",
-        date: "2024-06-10",
-        time: "10:00 AM",
-        category: "event",
-        isPinned: true,
-    },
-    {
-        id: "3",
-        title: "Assignment Submission Deadline",
-        content:
-            "Final project reports for Computer Science 101 must be submitted by end of day.",
-        date: "2024-05-20",
-        time: "11:59 PM",
-        category: "deadline",
-    },
-    {
-        id: "4",
-        title: "Campus Maintenance Notice",
-        content:
-            "The main library will be closed for maintenance this weekend. Online resources will remain accessible.",
-        date: "2024-05-18",
-        category: "announcement",
-    },
-];
 
 const galleryImages: {
     id: number;
@@ -109,19 +60,17 @@ const galleryImages: {
 export default function Hero() {
     return (
         <section>
-            <Container>
-                <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 lg: items-end">
-                    {/* Carousel */}
-                    <div className="lg:col-span-4 flex justify-center">
-                        <HeroCarousel />
-                    </div>
-                    
-                    {/* Notice Board */}
-                    <div className="lg:col-span-3 flex justify-center">
-                        <NoticeBoard notices={notices} />
-                    </div>
+            <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 lg: items-end">
+                {/* Carousel */}
+                <div className="lg:col-span-4 flex justify-center">
+                    <HeroCarousel />
                 </div>
-            </Container>
+
+                {/* Notice Board */}
+                <div className="lg:col-span-3 flex justify-center">
+                    <NoticeBoard notices={notices} />
+                </div>
+            </div>
         </section>
     );
 }
