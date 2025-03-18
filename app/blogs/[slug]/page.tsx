@@ -1,16 +1,40 @@
-import { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { Clock, User, Calendar } from "lucide-react"
+import { Clock, Calendar, Share2, BookmarkPlus } from "lucide-react"
 import { prisma } from "@/lib/prisma"
 import Image from "next/image"
+import { Metadata } from "next"
+import { Post } from "@prisma/client"
+import { formatDate } from "@/lib/format"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
 
-interface PageProps {
-  params: {
-    slug: string
+type PostWithRelations = Post & {
+  author: {
+    name: string | null
+    bio: string | null
+    image: string | null
   }
+  category: {
+    name: string
+    slug: string
+    description: string | null
+  }
+  tags: Array<{
+    id: string
+    name: string
+    slug: string
+  }>
 }
 
-async function getBlogPost(slug: string) {
+interface PageProps {
+  params: { slug: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
+async function getBlogPost(slug: string): Promise<PostWithRelations | null> {
   const post = await prisma.post.findUnique({
     where: {
       slug,
@@ -41,92 +65,171 @@ async function getBlogPost(slug: string) {
     },
   })
 
-  return post
+  return post as PostWithRelations | null
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const post = await getBlogPost(params.slug)
+export async function generateMetadata(
+  props: PageProps
+): Promise<Metadata> {
+  const post = await getBlogPost(props.params.slug)
 
   if (!post) {
     return {
       title: "Blog Post Not Found",
+      description: "The blog post you're looking for doesn't exist.",
     }
   }
 
   return {
     title: post.metaTitle || `${post.title} - Nirmaan Academy Blog`,
-    description: post.metaDescription || post.excerpt,
+    description: post.metaDescription || post.excerpt || "",
+    openGraph: {
+      title: post.title,
+      description: post.excerpt || "",
+      type: "article",
+      publishedTime: post.publishedAt?.toISOString(),
+      authors: post.author.name ? [post.author.name] : undefined,
+      images: [
+        {
+          url: post.featuredImage || "/images/blog/placeholder.jpg",
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt || "",
+      images: [post.featuredImage || "/images/blog/placeholder.jpg"],
+    },
   }
 }
 
-export default async function BlogPost({ params }: PageProps) {
-  const post = await getBlogPost(params.slug)
+export default async function BlogPost(props: PageProps) {
+  const post = await getBlogPost(props.params.slug)
 
   if (!post) {
     notFound()
   }
 
   return (
-    <article className="container mx-auto py-10 px-4">
-      <div className="max-w-3xl mx-auto">
-        {/* Header Image */}
-        <div className="relative w-full h-[400px] mb-8 rounded-lg overflow-hidden">
-          <Image
-            src={post.featuredImage || "/images/blog/placeholder.jpg"}
-            alt={post.featuredImageAlt || post.title}
-            width={200}
-            height={200}
-            className="object-cover w-full h-full"
-          />
-        </div>
-
-        {/* Header */}
-        <div className="space-y-4 text-center mb-8">
-          <div className="text-sm text-primary font-medium">{post.category.name}</div>
-          <h1 className="text-4xl font-bold tracking-tight">{post.title}</h1>
-          <div className="flex items-center justify-center gap-6 text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <User className="w-4 h-4" />
-              {post.author.name}
-            </div>
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
-              {post.publishedAt?.toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4" />
-              {post.readTimeMinutes} min read
-            </div>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div 
-          className="prose dark:prose-invert max-w-none"
-          dangerouslySetInnerHTML={{ __html: post.content }}
+    <article className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <div className="relative h-[60vh] min-h-[400px] w-full overflow-hidden">
+        <Image
+          src={post.featuredImage || "/images/blog/placeholder.jpg"}
+          alt={post.featuredImageAlt || post.title}
+          fill
+          className="object-cover"
+          priority
         />
-
-        {/* Tags */}
-        {post.tags.length > 0 && (
-          <div className="mt-8 pt-8 border-t">
-            <h2 className="text-lg font-semibold mb-4">Tags</h2>
-            <div className="flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag.id}
-                  className="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm"
-                >
-                  {tag.name}
-                </span>
-              ))}
+        <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-8">
+          <div className="container mx-auto max-w-4xl">
+            <Badge variant="secondary" className="mb-4">
+              {post.category.name}
+            </Badge>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+              {post.title}
+            </h1>
+            <div className="flex flex-wrap items-center gap-6 text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={post.author.image || undefined} />
+                  <AvatarFallback>{post.author.name?.[0]}</AvatarFallback>
+                </Avatar>
+                <div className="text-sm">
+                  <p className="font-medium text-foreground">{post.author.name}</p>
+                  <p className="text-xs">{post.author.bio}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4" />
+                <time dateTime={post.publishedAt?.toISOString()}>
+                  {post.publishedAt && formatDate(post.publishedAt)}
+                </time>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4" />
+                <span>{post.readTimeMinutes} min read</span>
+              </div>
             </div>
           </div>
-        )}
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="container mx-auto max-w-4xl py-12">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_200px] gap-8">
+          <div className="space-y-8">
+            {/* Article Content */}
+            <div 
+              className="prose dark:prose-invert max-w-none"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
+
+            {/* Tags */}
+            {post.tags.length > 0 && (
+              <div className="pt-8">
+                <h2 className="text-lg font-semibold mb-4">Related Topics</h2>
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <Badge key={tag.id} variant="outline">
+                      {tag.name}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Author Bio */}
+            <Card className="p-6">
+              <div className="flex items-start gap-4">
+                <Avatar className="h-12 w-12">
+                  <AvatarImage src={post.author.image || undefined} />
+                  <AvatarFallback>{post.author.name?.[0]}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <h3 className="font-semibold">{post.author.name}</h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {post.author.bio}
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Sidebar */}
+          <div className="space-y-6">
+            <div className="sticky top-24">
+              <div className="flex flex-col gap-4">
+                <Button variant="outline" className="w-full justify-start gap-2">
+                  <Share2 className="h-4 w-4" />
+                  Share
+                </Button>
+                <Button variant="outline" className="w-full justify-start gap-2">
+                  <BookmarkPlus className="h-4 w-4" />
+                  Save
+                </Button>
+                <Separator />
+                <div className="text-sm text-muted-foreground">
+                  <p>Published in</p>
+                  <p className="font-medium text-foreground mt-1">
+                    {post.category.name}
+                  </p>
+                  {post.category.description && (
+                    <p className="mt-2 text-xs">
+                      {post.category.description}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </article>
   )
-} 
+}
