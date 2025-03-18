@@ -255,7 +255,17 @@ export default async function CoursePage({ params }: CoursePageProps) {
               <h2 className="text-2xl font-bold">Reviews</h2>
               <div className="mt-4">
                 <CourseReviews
-                  reviews={course.reviews}
+                  reviews={course.reviews.map(review => ({
+                    id: review.id,
+                    user: {
+                      id: review.user.id,
+                      name: review.user.name || '',
+                      image: review.user.image || undefined
+                    },
+                    rating: review.rating,
+                    comment: review.comment || undefined,
+                    createdAt: review.createdAt.toISOString()
+                  }))}
                   courseId={course.id}
                   isEnrolled={isEnrolled}
                   averageRating={averageRating}
@@ -264,31 +274,31 @@ export default async function CoursePage({ params }: CoursePageProps) {
             </div>
           </div>
         </div>
+      </div>
 
-        <div>
-          <div className="rounded-lg border p-4 sticky top-20">
-            <h3 className="text-lg font-semibold">This course includes:</h3>
-            <ul className="mt-4 space-y-2">
-              <li className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-muted-foreground" />
-                <span>{formatDuration(totalDuration)} of on-demand video</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Award className="h-4 w-4 text-muted-foreground" />
-                <span>Certificate of completion</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Users className="h-4 w-4 text-muted-foreground" />
-                <span>{course.enrollments?.length || 0} students enrolled</span>
-              </li>
-            </ul>
+      <div>
+        <div className="rounded-lg border p-4 sticky top-20">
+          <h3 className="text-lg font-semibold">This course includes:</h3>
+          <ul className="mt-4 space-y-2">
+            <li className="flex items-center gap-2">
+              <Clock className="h-4 w-4 text-muted-foreground" />
+              <span>{formatDuration(totalDuration)} of on-demand video</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Award className="h-4 w-4 text-muted-foreground" />
+              <span>Certificate of completion</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Users className="h-4 w-4 text-muted-foreground" />
+              <span>{course.enrollments?.length || 0} students enrolled</span>
+            </li>
+          </ul>
 
-            {!isEnrolled && (
-              <div className="mt-6">
-                <AddToCartButton courseId={course.id} isInCart={isInCart} className="w-full" />
-              </div>
-            )}
-          </div>
+          {!isEnrolled && (
+            <div className="mt-6">
+              <AddToCartButton courseId={course.id} isInCart={isInCart} className="w-full" />
+            </div>
+          )}
         </div>
       </div>
     </div>
