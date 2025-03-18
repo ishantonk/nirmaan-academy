@@ -5,13 +5,11 @@ import { CourseNavigation } from "@/components/course/course-navigation"
 import { CourseVideoPlayer } from "@/components/course/course-video-player"
 import { CourseProgressButton } from "@/components/course/course-progress-button"
 
-interface CourseLearnPageProps {
-  params: {
-    slug: string
-  }
+interface Params {
+  slug: string;
 }
 
-export default async function CourseLearnPage({ params }: CourseLearnPageProps) {
+export default async function CourseLearnPage({ params }: { params: Params }) {
   const session = await getAuthSession()
 
   if (!session) {
