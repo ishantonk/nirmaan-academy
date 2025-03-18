@@ -8,7 +8,8 @@ const courseUpdateSchema = z.object({
   featured: z.boolean().optional(),
 })
 
-export async function PATCH(req: Request, { params }: { params: { courseId: string } }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function PATCH(req: Request, { params }: { params: any }) {
   try {
     const session = await getAuthSession()
 
