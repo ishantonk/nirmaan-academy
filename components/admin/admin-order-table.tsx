@@ -71,7 +71,7 @@ export function AdminOrderTable() {
       })
 
       refetch()
-    } catch (error) {
+    } catch {
       toast.error("Error", {
         description: "Failed to update order status",
       })

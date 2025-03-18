@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 
 interface CourseFiltersProps {
-  categories: any[]
+  categories: { id: string; slug: string; name: string }[]
 }
 
 export function CourseFilters({ categories }: CourseFiltersProps) {

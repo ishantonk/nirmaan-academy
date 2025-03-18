@@ -72,7 +72,7 @@ export async function GET(
     // Calculate analytics
     const analytics: CourseAnalytics = {
       enrolledStudents: course.enrollments.length,
-      totalRevenue: course.enrollments.reduce((sum, enrollment) => {
+      totalRevenue: course.enrollments.reduce((sum) => {
         return sum + Number(course.price)
       }, 0),
       averageRating: course.reviews.length > 0

@@ -77,6 +77,7 @@ async function CourseList({ searchParams }: CoursesPageProps) {
   const { category, search, price, sort } = searchParams
 
   // Build the where clause for filtering
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const where: any = {
     status: "PUBLISHED",
   }
@@ -118,6 +119,7 @@ async function CourseList({ searchParams }: CoursesPageProps) {
   }
 
   // Determine sort order
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let orderBy: any = {
     createdAt: "desc",
   }

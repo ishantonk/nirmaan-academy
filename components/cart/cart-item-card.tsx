@@ -11,7 +11,19 @@ import { toast } from "sonner"
 import { formatPrice } from "@/lib/format"
 
 interface CartItemCardProps {
-  item: any
+  item: {
+    id: string;
+    course: {
+      thumbnail: string;
+      title: string;
+      slug: string;
+      instructor: {
+        name: string;
+      };
+      price: number;
+      discountPrice?: number;
+    };
+  }
 }
 
 export function CartItemCard({ item }: CartItemCardProps) {

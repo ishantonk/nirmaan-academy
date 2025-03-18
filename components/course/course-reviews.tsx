@@ -11,7 +11,7 @@ import { formatDate } from "@/lib/format"
 import { toast } from "sonner"
 
 interface CourseReviewsProps {
-  reviews: any[]
+  reviews: { id: string; user: { id: string; name: string; image?: string }; rating: number; comment?: string; createdAt: string }[]
   courseId: string
   isEnrolled: boolean
   averageRating: number
@@ -62,7 +62,7 @@ export function CourseReviews({ reviews, courseId, isEnrolled, averageRating }: 
       })
 
       router.refresh()
-    } catch (error) {
+    } catch {
       toast.error("Error", {
         description: "Failed to submit review. Please try again."
       })

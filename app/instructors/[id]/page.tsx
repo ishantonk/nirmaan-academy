@@ -7,6 +7,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Mail, Clock } from "lucide-react"
+import Image from "next/image"
 
 interface PageProps {
   params: {
@@ -87,9 +88,11 @@ export default async function InstructorPage({ params }: PageProps) {
           {instructor.courses.map((course) => (
             <Card key={course.id} className="flex flex-col">
               <div className="relative h-48">
-                <img
+                <Image
                   src={course.thumbnail || "/images/courses/placeholder.jpg"}
                   alt={course.title}
+                  height={200}
+                  width={200}
                   className="object-cover w-full h-full"
                 />
               </div>

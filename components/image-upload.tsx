@@ -9,10 +9,10 @@ import { toast } from "sonner"
 
 // Wrapper component to handle the overRide prop
 interface UploadWrapperProps extends React.HTMLAttributes<HTMLDivElement> {
-  overRide?: any; // We don't care about the type since we're filtering it out
+  overRide?: unknown; // We don't care about the type since we're filtering it out
 }
 
-const UploadWrapper = ({ children, overRide, ...props }: UploadWrapperProps) => {
+const UploadWrapper = ({ children, ...props }: UploadWrapperProps) => {
   return <div {...props}>{children}</div>
 }
 

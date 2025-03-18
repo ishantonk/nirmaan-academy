@@ -20,11 +20,11 @@ export default async function AdminDashboardPage() {
   const userCount = await prisma.user.count()
   const courseCount = await prisma.course.count()
   const enrollmentCount = await prisma.enrollment.count()
-  const orderCount = await prisma.order.count({
-    where: {
-      status: "COMPLETED",
-    },
-  })
+  // const orderCount = await prisma.order.count({
+  //   where: {
+  //     status: "COMPLETED",
+  //   },
+  // })
 
   // Get total revenue
   const revenue = await prisma.order.aggregate({

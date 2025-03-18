@@ -75,7 +75,7 @@ export function AdminCourseTable() {
       })
 
       refetch()
-    } catch (error) {
+    } catch {
       toast.error("Error", {
         description: "Failed to update course status",
       })
@@ -101,7 +101,7 @@ export function AdminCourseTable() {
       })
 
       refetch()
-    } catch (error) {
+    } catch {
       toast.error("Error", {
         description: "Failed to update course",
       })

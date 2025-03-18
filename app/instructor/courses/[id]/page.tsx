@@ -4,12 +4,11 @@ import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import Image from "next/image"
 import { toast } from "sonner"
-import { Loader2, Pencil, Plus, Trash2, Settings, BookOpen, Users, Eye, BarChart3, AlertCircle } from "lucide-react"
+import { Loader2, Pencil, Plus, Trash2, BookOpen, Users, Eye, BarChart3, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CourseForm } from "@/components/course/course-form"
-import { serializePrismaObject } from "@/lib/utils"
 
 import {
   AlertDialog,
@@ -74,29 +73,28 @@ export default function CourseManagePage() {
   const params = useParams()
   const router = useRouter()
   const [course, setCourse] = useState<Course | null>(null)
-  const [categories, setCategories] = useState<Category[]>([])
+  const [categories] = useState<Category[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`/api/courses/${params.id}`)
-      if (!response.ok) {
-        throw new Error("Failed to fetch course data")
-      }
-      const data = await response.json()
-      setCourse(data)
-      setIsLoading(false)
-    } catch (error) {
-      console.error("Error fetching course:", error)
-      toast.error("Failed to load course data")
-      setIsLoading(false)
-    }
-  }
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/courses/${params.id}`)
+        if (!response.ok) {
+          throw new Error("Failed to fetch course data")
+        }
+        const data = await response.json()
+        setCourse(data)
+        setIsLoading(false)
+      } catch {
+        toast.error("Failed to load course data")
+        setIsLoading(false)
+      }
+    }
+
     fetchData()
   }, [params.id])
 

@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { Clock, User, Calendar } from "lucide-react"
 import { prisma } from "@/lib/prisma"
+import Image from "next/image"
 
 interface PageProps {
   params: {
@@ -70,9 +71,11 @@ export default async function BlogPost({ params }: PageProps) {
       <div className="max-w-3xl mx-auto">
         {/* Header Image */}
         <div className="relative w-full h-[400px] mb-8 rounded-lg overflow-hidden">
-          <img
+          <Image
             src={post.featuredImage || "/images/blog/placeholder.jpg"}
             alt={post.featuredImageAlt || post.title}
+            width={200}
+            height={200}
             className="object-cover w-full h-full"
           />
         </div>

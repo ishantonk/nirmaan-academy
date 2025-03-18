@@ -31,7 +31,7 @@ export async function DELETE(req: Request, { params }: { params: { cartItemId: s
     })
 
     return NextResponse.json({ message: "Cart item removed" })
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Something went wrong" }, { status: 500 })
   }
 }

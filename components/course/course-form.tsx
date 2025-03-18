@@ -29,10 +29,10 @@ const formSchema = z.object({
   thumbnail: z.string().optional(),
 })
 
-type FormValues = z.infer<typeof formSchema>
+type FormValues = z.infer<typeof formSchema> & { id?: string }
 
 interface CourseFormProps {
-  initialData?: any
+  initialData?: FormValues
   categories: { id: string; name: string }[]
 }
 
@@ -81,7 +81,7 @@ export function CourseForm({ initialData, categories }: CourseFormProps) {
 
       router.push(`/instructor/courses/${course.id}`)
       router.refresh()
-    } catch (error) {
+    } catch {
       toast.error("Something went wrong", {
         description: "Failed to save course. Please try again."
       })

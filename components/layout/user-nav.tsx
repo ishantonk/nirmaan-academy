@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { signOut, useSession } from "next-auth/react"
-import { Cloud, CreditCard, Github, LifeBuoy, LogOut, Settings, User } from "lucide-react"
+import { Cloud, CreditCard, LifeBuoy, LogOut, Settings, User } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -117,12 +117,6 @@ export function UserNav() {
             <LifeBuoy className="mr-2 h-4 w-4" />
             <span>Support</span>
           </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <a href="https://github.com/yourusername/edulearn" target="_blank" rel="noreferrer">
-            <Github className="mr-2 h-4 w-4" />
-            <span>GitHub</span>
-          </a>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignOut}>

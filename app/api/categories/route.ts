@@ -10,7 +10,7 @@ export async function GET() {
     })
 
     return NextResponse.json(categories)
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: "Something went wrong" }, { status: 500 })
   }
 }

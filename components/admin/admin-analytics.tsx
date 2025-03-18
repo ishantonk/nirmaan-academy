@@ -43,7 +43,7 @@ export function AdminAnalytics() {
             <CardTitle>Analytics</CardTitle>
             <CardDescription>View revenue and enrollment analytics</CardDescription>
           </div>
-          <Tabs value={period} onValueChange={(value) => setPeriod(value as any)}>
+          <Tabs value={period} onValueChange={(value) => setPeriod(value as "week" | "month" | "year")}>
             <TabsList>
               <TabsTrigger value="week">Week</TabsTrigger>
               <TabsTrigger value="month">Month</TabsTrigger>

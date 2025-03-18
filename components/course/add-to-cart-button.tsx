@@ -46,9 +46,9 @@ export function AddToCartButton({ courseId, isInCart, className }: AddToCartButt
       })
 
       router.refresh()
-    } catch (error: any) {
+    } catch {
       toast.error("Error", {
-        description: error.message || "Failed to add to cart. Please try again."
+        description: "Failed to add to cart. Please try again."
       })
     } finally {
       setIsLoading(false)

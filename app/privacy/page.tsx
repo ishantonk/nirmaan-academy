@@ -1,6 +1,5 @@
 import { privacyPolicyData } from "@/data/privacy-policy"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 
 export default function PrivacyPolicyPage() {
   return (
@@ -62,7 +61,7 @@ export default function PrivacyPolicyPage() {
           <h2 className="text-2xl font-semibold mt-8">Cookies and Tracking</h2>
           <p>{privacyPolicyData.cookies_tracking}</p>
 
-          <h2 className="text-2xl font-semibold mt-8">Children's Privacy</h2>
+          <h2 className="text-2xl font-semibold mt-8">Children&apos;s Privacy</h2>
           <p>{privacyPolicyData.children_privacy}</p>
 
           <h2 className="text-2xl font-semibold mt-8">E-commerce Transactions</h2>

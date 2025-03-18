@@ -4,7 +4,11 @@ import { BookOpen } from "lucide-react"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 
 interface CategoryCardProps {
-  category: any
+  category: {
+    slug: string;
+    name: string;
+    description?: string;
+  }
   courseCount: number
 }
 

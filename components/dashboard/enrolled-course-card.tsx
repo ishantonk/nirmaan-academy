@@ -5,7 +5,19 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 
 interface EnrolledCourseCardProps {
-  enrollment: any
+  enrollment: {
+    course: {
+      slug: string;
+      thumbnail?: string;
+      title: string;
+      category?: {
+        name: string;
+      };
+    };
+    progressPercentage: number;
+    completedLessons: number;
+    totalLessons: number;
+  }
 }
 
 export function EnrolledCourseCard({ enrollment }: EnrolledCourseCardProps) {

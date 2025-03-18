@@ -4,9 +4,11 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Clock, User } from "lucide-react"
 import { prisma } from "@/lib/prisma"
+import { brandName } from "@/data/contact-info"
+import Image from "next/image"
 
 export const metadata: Metadata = {
-  title: "Blog - Nirmaan Academy",
+  title: "Blog - " +  brandName ,
   description: "Latest articles, tutorials, and updates from Nirmaan Academy.",
 }
 
@@ -54,9 +56,11 @@ export default async function BlogsPage() {
         {posts.map((post) => (
           <Card key={post.id} className="flex flex-col overflow-hidden">
             <div className="relative h-48 w-full">
-              <img
+              <Image
                 src={post.featuredImage || "/images/blog/placeholder.jpg"}
                 alt={post.featuredImageAlt || post.title}
+                width={200}
+                height={200}
                 className="object-cover w-full h-full"
               />
             </div>

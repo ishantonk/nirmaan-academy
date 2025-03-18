@@ -9,7 +9,19 @@ import { formatPrice } from "@/lib/format"
 import { toast } from "sonner"
 
 interface CartItemListProps {
-  items: any[]
+  items: {
+    id: string;
+    course: {
+      id: string;
+      title: string;
+      slug: string;
+      thumbnail?: string;
+      category?: {
+        name: string;
+      };
+      price: number;
+    };
+  }[]
 }
 
 export function CartItemList({ items }: CartItemListProps) {
@@ -31,7 +43,7 @@ export function CartItemList({ items }: CartItemListProps) {
       toast.success("Item removed", {
         description: "The item has been removed from your cart",
       })
-    } catch (error) {
+    } catch {
       toast.error("Error", {
         description: "Failed to remove item from cart",
       })

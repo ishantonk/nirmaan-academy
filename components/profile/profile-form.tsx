@@ -25,7 +25,11 @@ const formSchema = z.object({
 })
 
 interface ProfileFormProps {
-  user: any
+  user: {
+    name: string;
+    bio?: string;
+    image?: string;
+  }
 }
 
 export function ProfileForm({ user }: ProfileFormProps) {
@@ -137,7 +141,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
             <FormField
               control={form.control}
               name="image"
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormLabel>Profile Picture</FormLabel>
                   <div className="space-y-4">

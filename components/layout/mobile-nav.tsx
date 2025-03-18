@@ -1,12 +1,8 @@
 "use client"
 
-import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { signOut } from "next-auth/react"
-import { ShoppingCart, User, Settings, LogOut, LayoutDashboard, BookOpen } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { ModeToggle } from "@/components/mode-toggle"
 import type { Session } from "next-auth"
 import { cn } from "@/lib/utils"
 
@@ -21,7 +17,7 @@ interface MobileNavProps {
   }[]
 }
 
-export function MobileNav({ session, status, items }: MobileNavProps) {
+export function MobileNav({ items }: MobileNavProps) {
   const pathname = usePathname()
   const router = useRouter()
 

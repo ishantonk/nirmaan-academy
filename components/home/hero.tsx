@@ -5,7 +5,16 @@ import Image from "next/image"
 import Link from "next/link"
 import Autoplay from "embla-carousel-autoplay"
 
-export function Hero({ categories }: { categories: any, }) {
+interface Category {
+    id: string;
+    name: string;
+    slug: string;
+    _count: {
+        courses: number;
+    };
+}
+
+export function Hero({ categories }: { categories: Category[], }) {
     return (
         <section className="relative bg-gradient-to-r from-primary/10 via-primary/5 to-background">
             <div className="container relative z-10 py-20 md:py-8 mx-auto px-4">
@@ -14,7 +23,7 @@ export function Hero({ categories }: { categories: any, }) {
                         <div className="bg-background rounded-lg p-6 shadow-sm">
                             <h3 className="text-xl font-semibold mb-4">Popular Categories</h3>
                             <ul className="space-y-3">
-                                {categories.slice(0, 4).map((category: any) => (
+                                {categories.slice(0, 4).map((category: Category) => (
                                     <li key={category.id} className="flex items-center justify-between">
                                         <Link className="flex items-center justify-between w-full hover:text-primary transition-colors text-muted-foreground" href={`/categories/${category.slug}`}>
                                             <span className="text-sm text-muted-foreground">{category.name}</span>

@@ -8,9 +8,19 @@ import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
 interface CourseNavigationProps {
-  course: any
+  course: {
+    title: string
+    sections: {
+      id: string
+      title: string
+      lessons: {
+        id: string
+        title: string
+      }[]
+    }[]
+  }
   currentLessonId: string
-  progress: any[]
+  progress: { lessonId: string; completed: boolean }[]
 }
 
 export function CourseNavigation({ course, currentLessonId, progress }: CourseNavigationProps) {
@@ -31,8 +41,8 @@ export function CourseNavigation({ course, currentLessonId, progress }: CourseNa
         <h2 className="text-lg font-semibold">{course.title}</h2>
       </div>
       <div className="flex-1 overflow-y-auto">
-        <Accordion type="multiple" defaultValue={course.sections.map((section: any) => section.id)} className="w-full">
-          {course.sections.map((section: any) => (
+        <Accordion type="multiple" defaultValue={course.sections.map((section: { id: string; title: string; lessons: { id: string; title: string }[] }) => section.id)} className="w-full">
+          {course.sections.map((section: { id: string; title: string; lessons: { id: string; title: string }[] }) => (
             <AccordionItem key={section.id} value={section.id}>
               <AccordionTrigger className="px-4 py-2 hover:no-underline">
                 <div className="flex flex-col items-start">
@@ -43,7 +53,7 @@ export function CourseNavigation({ course, currentLessonId, progress }: CourseNa
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pb-0 pt-1">
-                {section.lessons.map((lesson: any) => {
+                {section.lessons.map((lesson: { id: string; title: string }) => {
                   const isActive = currentLessonId === lesson.id
                   const isCompleted = progressMap[lesson.id]
 

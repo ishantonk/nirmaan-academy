@@ -27,8 +27,7 @@ export function CourseEnrollButton({ courseId }: CourseEnrollButtonProps) {
       return response.json()
     },
     onSuccess: () => {
-      toast({
-        title: "Enrolled successfully",
+      toast.success("Enrolled successfully",{
         description: "You have been enrolled in this course.",
       })
       router.push(`/dashboard/courses/${courseId}`)

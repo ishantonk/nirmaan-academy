@@ -8,7 +8,16 @@ import { formatDuration } from "@/lib/format"
 import { Badge } from "@/components/ui/badge"
 
 interface CourseSectionsProps {
-  sections: any[]
+  sections: {
+    id: string
+    title: string
+    lessons: {
+      id: string
+      title: string
+      duration: number
+      isFree: boolean
+    }[]
+  }[]
   isEnrolled: boolean
 }
 
@@ -63,7 +72,7 @@ export function CourseSections({ sections, isEnrolled }: CourseSectionsProps) {
             </AccordionTrigger>
             <AccordionContent className="pb-0 pt-1">
               <ul className="divide-y">
-                {section.lessons.map((lesson: any) => (
+                {section.lessons.map((lesson: { id: string; title: string; duration: number; isFree: boolean }) => (
                   <li key={lesson.id} className="flex items-center justify-between p-4">
                     <div className="flex items-center gap-2">
                       {isEnrolled || lesson.isFree ? (

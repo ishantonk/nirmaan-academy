@@ -69,7 +69,7 @@ export function AdminUserTable() {
       })
 
       refetch()
-    } catch (error) {
+    } catch {
       toast.error("Error", {
         description: "Failed to update user role",
       })

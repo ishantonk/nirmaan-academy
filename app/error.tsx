@@ -26,7 +26,7 @@ export default function Error({
         </div>
         <h1 className="mb-2 text-3xl font-bold">Something went wrong</h1>
         <p className="mb-8 text-muted-foreground">
-          An unexpected error occurred. We've been notified and are working to fix the issue.
+          An unexpected error occurred. We&apos;ve been notified and are working to fix the issue.
         </p>
         <div className="flex gap-2">
           <Button onClick={() => reset()}>Try again</Button>

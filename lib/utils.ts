@@ -43,6 +43,7 @@ type SerializedValue = string | number | boolean | null | SerializedValue[] | { 
 /**
  * Recursively serializes all Decimal values in a Prisma object to numbers
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function serializePrismaObject<T extends Record<string, any>>(obj: T): { [K in keyof T]: SerializedValue } {
   const serialized = { ...obj } as { [K in keyof T]: SerializedValue }
   for (const key in serialized) {
@@ -91,7 +92,7 @@ export function isValidUrl(url: string) {
   try {
     new URL(url)
     return true
-  } catch (error) {
+  } catch {
     return false
   }
 }

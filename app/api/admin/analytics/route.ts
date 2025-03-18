@@ -13,7 +13,7 @@ export async function GET(req: Request) {
     const url = new URL(req.url)
     const period = url.searchParams.get("period") || "week"
 
-    let data = []
+    let data: { name: string; revenue: number; enrollments: number }[] = []
 
     if (period === "week") {
       // Get data for the last 7 days
@@ -27,7 +27,7 @@ export async function GET(req: Request) {
     }
 
     return NextResponse.json(data)
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

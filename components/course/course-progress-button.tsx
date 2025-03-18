@@ -41,7 +41,7 @@ export function CourseProgressButton({ lessonId, enrollmentId, isCompleted }: Co
       })
 
       router.refresh()
-    } catch (error) {
+    } catch {
       toast.error("Something went wrong", {
         description: "Failed to update progress. Please try again."
       })
