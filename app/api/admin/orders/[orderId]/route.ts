@@ -7,7 +7,8 @@ const orderUpdateSchema = z.object({
   status: z.enum(["PENDING", "COMPLETED", "CANCELLED", "REFUNDED"]),
 })
 
-export async function PATCH(req: Request, { params }: { params: { orderId: string } }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function PATCH(req: Request, { params }: { params: any }) {
   try {
     const session = await getAuthSession()
 

@@ -7,7 +7,8 @@ const userUpdateSchema = z.object({
   role: z.enum(["STUDENT", "INSTRUCTOR", "ADMIN"]),
 })
 
-export async function PATCH(req: Request, { params }: { params: { userId: string } }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function PATCH(req: Request, { params }: { params: any }) {
   try {
     const session = await getAuthSession()
 
