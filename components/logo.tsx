@@ -17,7 +17,7 @@ export function Logo({ className, size }: { className?: string, size?: "sm" | "m
                     src={"/logo.png"}
                     alt="nirmaan-academy"
                     fill
-                    style={{ position: "absolute", objectFit: "contain" }}
+                    className="object-contain absolute inset-0"
                 />
             </div>
             <span className={cn(size === "sm" ? "hidden sm:inline-block text-sm font-semibold" : size === "md" ? "hidden sm:inline-block text-normal font-semibold" : "hidden sm:inline-block text-lg font-semibold")}>Nirmaan academy</span>

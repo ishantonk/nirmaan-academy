@@ -57,20 +57,7 @@ export default async function InstructorCoursesPage() {
               <div key={course.id}>
                 <CourseCard
                   key={course.id}
-                  course={{
-                    id: course.id,
-                    title: course.title,
-                    description: course.description,
-                    thumbnail: course.thumbnail,
-                    price: Number(course.price),
-                    category: {
-                      name: course.category.name
-                    },
-                    instructor: {
-                      name: course.instructor.name || "",
-                      image: course.instructor.image
-                    }
-                  }}
+                  course={course}
                   href={`/instructor/courses/${course.id}`}
                   actions={
                     <Button asChild variant="outline" size="sm">

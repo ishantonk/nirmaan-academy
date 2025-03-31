@@ -3,17 +3,18 @@ import { EmptyState } from "@/components/empty-state";
 import { BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Decimal } from "@prisma/client/runtime/library";
 
 interface CourseGridProps {
     courses: {
         id: string;
         slug: string;
         title: string;
-        description: string;
+        description: string | null;
         thumbnail: string | null;
-        price: number;
+        price: Decimal;
         category: { name: string };
-        instructor: { name: string; image: string | null };
+        instructor: { name: string | null; image: string | null };
     }[];
 }
 

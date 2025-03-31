@@ -17,8 +17,8 @@ interface Category {
 export function Hero({ categories }: { categories: Category[], }) {
     return (
         <section className="relative bg-gradient-to-r from-primary/10 via-primary/5 to-background">
-            <div className="container relative z-10 py-20 md:py-8 mx-auto px-4">
-                <div className="grid grid-cols-1 md:grid-cols-4 items-center">
+            <div className="relative z-10 py-4 md:py-8 mx-auto px-4 max-w-7xl">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 items-center">
                     <div className="col-span-1 md:px-4 py-4">
                         <div className="bg-background rounded-lg p-6 shadow-sm">
                             <h3 className="text-xl font-semibold mb-4">Popular Categories</h3>
@@ -52,7 +52,7 @@ export function Hero({ categories }: { categories: Category[], }) {
                         >
                             <CarouselContent>
                                 <CarouselItem>
-                                    <div className="relative h-[400px] w-full rounded-lg overflow-hidden shadow-xl">
+                                    <div className="relative h-[300px] w-full rounded-lg overflow-hidden shadow-xl">
                                         <Image
                                             src="/placeholder.svg?height=800&width=1200"
                                             alt="Students learning online"
@@ -63,7 +63,7 @@ export function Hero({ categories }: { categories: Category[], }) {
                                     </div>
                                 </CarouselItem>
                                 <CarouselItem>
-                                    <div className="relative h-[400px] w-full rounded-lg overflow-hidden shadow-xl">
+                                    <div className="relative h-[300px] w-full rounded-lg overflow-hidden shadow-xl">
                                         <Image
                                             src="/placeholder.svg?height=800&width=1200"
                                             alt="Online learning platform"
@@ -73,7 +73,7 @@ export function Hero({ categories }: { categories: Category[], }) {
                                     </div>
                                 </CarouselItem>
                                 <CarouselItem>
-                                    <div className="relative h-[400px] w-full rounded-lg overflow-hidden shadow-xl">
+                                    <div className="relative h-[300px] w-full rounded-lg overflow-hidden shadow-xl">
                                         <Image
                                             src="/placeholder.svg?height=800&width=1200"
                                             alt="Virtual classroom"
@@ -88,7 +88,7 @@ export function Hero({ categories }: { categories: Category[], }) {
                             <CarouselDots className="md:hidden" />
                         </Carousel>
                     </div>
-                    <div className="col-span-1 hidden md:block md:px-4 py-4">
+                    <div className="col-span-1 hidden lg:block md:px-4 py-4">
                         <div className="bg-background rounded-lg p-6 shadow-sm">
                             <div className="space-y-4">
                                 <h3 className="text-xl font-semibold">About Our Platform</h3>

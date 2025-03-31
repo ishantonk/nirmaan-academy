@@ -1,7 +1,7 @@
 import { Metadata } from "next"
-import { aboutUsData } from "@/data/about-us"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle2, Target, Lightbulb, GraduationCap } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { aboutUsData } from "@/data/about-us"
 
 export const metadata: Metadata = {
   title: aboutUsData.title,
