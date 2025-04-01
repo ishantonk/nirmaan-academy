@@ -9,8 +9,6 @@ import { AddToCartButton } from "@/components/course/add-to-cart-button";
 import { CourseReviews } from "@/components/course/course-reviews";
 import { CourseSections } from "@/components/course/course-sections";
 import { Clock, Users, Award } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
-import { CourseRating } from "@/components/course/course-rating";
 import { CourseEnrollButton } from "@/components/course/course-enroll-button";
 
 interface CoursePageProps {
@@ -339,24 +337,6 @@ export default async function CoursePage({ params }: CoursePageProps) {
                                     averageRating={averageRating}
                                 />
                             </div>
-                            {session && (
-                                <div className="mt-4">
-                                    <h3 className="text-lg font-semibold">
-                                        Write a review
-                                    </h3>
-                                    <div className="mt-2">
-                                        <CourseRating />
-                                    </div>
-                                    <div className="mt-2">
-                                        <Textarea placeholder="Write your review" />
-                                    </div>
-                                    <div className="mt-2">
-                                        <Button className="w-full">
-                                            Write a review
-                                        </Button>
-                                    </div>
-                                </div>
-                            )}
                             <div className="mb-2"></div>
                         </div>
                     </div>
@@ -389,16 +369,11 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
                         {!isEnrolled && (
                             <div className="mt-6">
-                                {Number(course.discountPrice) === 0 ||
-                                Number(course.price) === 0 ? (
-                                    <CourseEnrollButton courseId={course.id} />
-                                ) : (
-                                    <AddToCartButton
-                                        courseId={course.id}
-                                        isInCart={isInCart}
-                                        className="w-full"
-                                    />
-                                )}
+                                <AddToCartButton
+                                    courseId={course.id}
+                                    isInCart={isInCart}
+                                    className="w-full"
+                                />
                             </div>
                         )}
                     </div>

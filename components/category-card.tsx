@@ -7,7 +7,7 @@ interface CategoryCardProps {
   category: {
     slug: string;
     name: string;
-    description?: string;
+    description?: string | null;
   }
   courseCount: number
 }

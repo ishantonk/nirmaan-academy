@@ -15,7 +15,7 @@ export default async function ProfilePage() {
   const session = await getAuthSession()
 
   if (!session) {
-    redirect("/auth/login")
+    redirect("/login")
   }
 
   return (
@@ -28,7 +28,7 @@ export default async function ProfilePage() {
           <TabsTrigger value="password">Password</TabsTrigger>
         </TabsList>
         <TabsContent value="general" className="mt-6">
-          <ProfileForm user={session.user} />
+          <ProfileForm user={{ ...session.user, name: session.user.name ?? null }} />
         </TabsContent>
         <TabsContent value="password" className="mt-6">
           <PasswordForm />

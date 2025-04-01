@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, BookOpen, Users, Award } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
@@ -17,6 +17,7 @@ import {
 import { testimonials } from "@/data/testimonials";
 import { Hero } from "@/components/home/hero";
 import { Gallery } from "@/components/home/gallery";
+import { Decimal } from "@prisma/client/runtime/library";
 
 export default async function HomePage() {
     // Fetch featured courses
@@ -63,58 +64,56 @@ export default async function HomePage() {
             {/* Hero Section */}
             <Hero categories={categories} />
 
-            {/* Features Section */}
+            {/* Categories Section */}
             <section className="py-16 bg-muted/50">
                 <div className="container mx-auto px-4">
-                    <div className="flex flex-col items-center justify-between w-full mb-12 text-center">
-                        <h2 className="text-3xl font-bold">
-                            Why Choose Nirmaan Academy
-                        </h2>
-                        <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-                            Our platform offers a comprehensive learning
-                            experience with features designed to help you
-                            succeed.
-                        </p>
+                    <div className="flex items-center justify-between mb-8">
+                        <div>
+                            <h2 className="text-3xl font-bold">
+                                Browse Categories
+                            </h2>
+                            <p className="mt-2 text-muted-foreground">
+                                Find the perfect course by exploring our
+                                categories
+                            </p>
+                        </div>
+                        <Button variant="outline" asChild>
+                            <Link href="/categories">
+                                All Categories
+                                <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                        </Button>
                     </div>
-                    <div className="grid md:grid-cols-3 gap-8">
-                        <div className="bg-background rounded-lg p-6 shadow-sm">
-                            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                                <BookOpen className="h-6 w-6 text-primary" />
-                            </div>
-                            <h3 className="text-xl font-semibold mb-2">
-                                Quality Content
-                            </h3>
-                            <p className="text-muted-foreground">
-                                All courses are created by industry experts and
-                                undergo a rigorous review process to ensure
-                                high-quality content.
-                            </p>
-                        </div>
-                        <div className="bg-background rounded-lg p-6 shadow-sm">
-                            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                                <Users className="h-6 w-6 text-primary" />
-                            </div>
-                            <h3 className="text-xl font-semibold mb-2">
-                                Community Support
-                            </h3>
-                            <p className="text-muted-foreground">
-                                Join a community of learners and instructors who
-                                are passionate about sharing knowledge and
-                                helping each other grow.
-                            </p>
-                        </div>
-                        <div className="bg-background rounded-lg p-6 shadow-sm">
-                            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                                <Award className="h-6 w-6 text-primary" />
-                            </div>
-                            <h3 className="text-xl font-semibold mb-2">
-                                Certificates
-                            </h3>
-                            <p className="text-muted-foreground">
-                                Earn certificates upon course completion to
-                                showcase your skills and knowledge to employers.
-                            </p>
-                        </div>
+                    <div className="relative px-12">
+                        <Carousel
+                            opts={{
+                                align: "start",
+                                loop: true,
+                                containScroll: "trimSnaps",
+                            }}
+                            className="w-full"
+                        >
+                            <CarouselContent className="-ml-4">
+                                {categories.map((category) => (
+                                    <CarouselItem
+                                        key={category.id}
+                                        className="pl-4 md:basis-1/2 lg:basis-1/4"
+                                    >
+                                        <div className="h-full">
+                                            <CategoryCard
+                                                category={category}
+                                                courseCount={
+                                                    category._count.courses
+                                                }
+                                            />
+                                        </div>
+                                    </CarouselItem>
+                                ))}
+                            </CarouselContent>
+                            <CarouselPrevious className="hidden md:flex -left-4" />
+                            <CarouselNext className="hidden md:flex -right-4" />
+                            <CarouselDots className="md:hidden" />
+                        </Carousel>
                     </div>
                 </div>
             </section>
@@ -162,7 +161,9 @@ export default async function HomePage() {
                                                     description:
                                                         course.description,
                                                     thumbnail: course.thumbnail,
-                                                    price: Number(course.price),
+                                                    price: Decimal(
+                                                        course.price
+                                                    ),
                                                     category: {
                                                         name: course.category
                                                             .name,
@@ -176,60 +177,6 @@ export default async function HomePage() {
                                                     },
                                                 }}
                                                 href={`/courses/${course.slug}`}
-                                            />
-                                        </div>
-                                    </CarouselItem>
-                                ))}
-                            </CarouselContent>
-                            <CarouselPrevious className="hidden md:flex -left-4" />
-                            <CarouselNext className="hidden md:flex -right-4" />
-                            <CarouselDots className="md:hidden" />
-                        </Carousel>
-                    </div>
-                </div>
-            </section>
-
-            {/* Categories Section */}
-            <section className="py-16 bg-muted/50">
-                <div className="container mx-auto px-4">
-                    <div className="flex items-center justify-between mb-8">
-                        <div>
-                            <h2 className="text-3xl font-bold">
-                                Browse Categories
-                            </h2>
-                            <p className="mt-2 text-muted-foreground">
-                                Find the perfect course by exploring our
-                                categories
-                            </p>
-                        </div>
-                        <Button variant="outline" asChild>
-                            <Link href="/categories">
-                                All Categories
-                                <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                        </Button>
-                    </div>
-                    <div className="relative px-12">
-                        <Carousel
-                            opts={{
-                                align: "start",
-                                loop: true,
-                                containScroll: "trimSnaps",
-                            }}
-                            className="w-full"
-                        >
-                            <CarouselContent className="-ml-4">
-                                {categories.map((category) => (
-                                    <CarouselItem
-                                        key={category.id}
-                                        className="pl-4 md:basis-1/2 lg:basis-1/4"
-                                    >
-                                        <div className="h-full">
-                                            <CategoryCard
-                                                category={category}
-                                                courseCount={
-                                                    category._count.courses
-                                                }
                                             />
                                         </div>
                                     </CarouselItem>
