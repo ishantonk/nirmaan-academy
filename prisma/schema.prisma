@@ -1,0 +1,498 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  STUDENT
+  ADMIN
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+  REFUNDED
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum StudyMaterial {
+  PENDRIVE
+  DOWNLOAD
+  WITH_HANDBOOK
+}
+
+enum Language {
+  HINDI
+  ENGLISH
+  HINDI_ENGLISH
+}
+
+enum PaymentStatus {
+  PAID
+  UNPAID
+}
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum BannerType {
+  IMAGE
+  VIDEO
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique @db.VarChar(255)
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  role          UserRole  @default(STUDENT)
+  bio           String?
+
+  // Relations
+  accounts    Account[]    @relation("UserAccounts")
+  enrollments Enrollment[] @relation("UserEnrollments")
+  orders      Order[]      @relation("UserOrders")
+  reviews     Review[]     @relation("UserReviews")
+  BlogPost    BlogPost[]   @relation("BlogAuthor")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  // Foreign Keys
+  userId String
+
+  // Relations
+  user User @relation("UserAccounts", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Category {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+  slug        String  @unique
+  status      Status  @default(ACTIVE)
+  isPopular   Boolean @default(false)
+
+  // SEO meta fields
+  metaTitle       String? @db.VarChar(70)
+  metaKeywords    String?
+  metaDescription String? @db.VarChar(160)
+
+  // Foreign Keys
+  parentId String?
+
+  // Self-relation
+  parent        Category?  @relation("CategoryToSubCategory", fields: [parentId], references: [id], onDelete: Cascade)
+  subcategories Category[] @relation("CategoryToSubCategory")
+
+  // Relations
+  courses Course[] @relation("CategoryCourses")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([slug])
+}
+
+model Attempt {
+  id                    String   @id @default(cuid())
+  title                 String
+  downloadPrice         Decimal  @default(0) @db.Decimal(10, 2)
+  downloadDiscountPrice Decimal? @db.Decimal(10, 2)
+  pendrivePrice         Decimal  @default(0) @db.Decimal(10, 2)
+  pendriveDiscountPrice Decimal? @db.Decimal(10, 2)
+
+  // Foreign Keys
+  courseId String
+
+  // Relation
+  course     Course      @relation("CourseAttempt", fields: [courseId], references: [id], onDelete: Cascade)
+  orderItems OrderItem[] @relation("OrderAttempt")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Faculty {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  bio         String?
+  image       String?
+  designation String?
+
+  // Relations
+  courses Course[] @relation("CourseFaculties")
+  Ebook   Ebook[]  @relation("EbookProfessor")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Course {
+  id                     String        @id @default(cuid())
+  title                  String
+  slug                   String        @unique
+  description            String?
+  thumbnail              String?
+  onSale                 Boolean       @default(false)
+  durationInMin          Int           @default(0)
+  status                 CourseStatus  @default(DRAFT)
+  isTrending             Boolean       @default(false)
+  studyMaterial          StudyMaterial
+  videoLanguage          Language
+  courseMaterialLanguage Language
+  demoVideoUrl           String?
+  priority               Int           @default(0)
+
+  // SEO meta fields
+  metaTitle       String? @db.VarChar(70)
+  metaKeywords    String?
+  metaDescription String? @db.VarChar(160)
+
+  // Foreign Keys
+  categoryId String
+
+  // Relations
+  category    Category     @relation("CategoryCourses", fields: [categoryId], references: [id], onDelete: Cascade)
+  faculties   Faculty[]    @relation("CourseFaculties")
+  enrollments Enrollment[] @relation("CourseEnrollments")
+  attempts    Attempt[]    @relation("CourseAttempt")
+  OrderItem   OrderItem[]  @relation("CourseOrderItem")
+  Review      Review[]     @relation("CourseReviews")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([status])
+  @@index([priority])
+  @@index([isTrending])
+  @@index([onSale])
+}
+
+model Order {
+  id              String        @id @default(cuid())
+  name            String
+  email           String        @db.VarChar(255)
+  phone           String
+  address         String
+  totalAmount     Decimal       @db.Decimal(10, 2)
+  subtotalAmount  Decimal       @db.Decimal(10, 2)
+  paymentStatus   PaymentStatus @default(UNPAID)
+  status          OrderStatus   @default(PENDING)
+  paymentId       String?
+  razorpayOrderId String?
+
+  // Foreign Keys
+  userId String
+
+  // Relations
+  user       User        @relation("UserOrders", fields: [userId], references: [id], onDelete: Cascade)
+  orderItems OrderItem[] @relation("OrderItem")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([paymentStatus])
+}
+
+model OrderItem {
+  id        String        @id @default(cuid())
+  price     Decimal       @db.Decimal(10, 2)
+  orderType StudyMaterial
+
+  // Foreign Keys
+  orderId   String
+  courseId  String
+  attemptId String
+
+  // Relations
+  attempt Attempt @relation("OrderAttempt", fields: [attemptId], references: [id])
+  course  Course  @relation("CourseOrderItem", fields: [courseId], references: [id])
+  order   Order   @relation("OrderItem", fields: [orderId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([orderId])
+  @@index([courseId])
+}
+
+model Enrollment {
+  id String @id @default(cuid())
+
+  // Foreign Keys
+  userId   String
+  courseId String
+
+  // Relations
+  course Course @relation("CourseEnrollments", fields: [courseId], references: [id], onDelete: Cascade)
+  user   User   @relation("UserEnrollments", fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+}
+
+model Review {
+  id      String  @id @default(cuid())
+  rating  Int
+  comment String?
+
+  // Foreign Keys
+  userId   String
+  courseId String
+
+  // Relations
+  course Course @relation("CourseReviews", fields: [courseId], references: [id], onDelete: Cascade)
+  user   User   @relation("UserReviews", fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+}
+
+model EbookCategory {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  description String?
+  isPopular   Boolean @default(false)
+  status      Status  @default(ACTIVE)
+
+  // SEO meta fields
+  metaTitle       String? @db.VarChar(70)
+  metaKeywords    String?
+  metaDescription String? @db.VarChar(160)
+
+  // Foreign Keys
+  parentId String?
+
+  // Self-relation
+  parent        EbookCategory?  @relation("EbookToSubcategories", fields: [parentId], references: [id], onDelete: Cascade)
+  subcategories EbookCategory[] @relation("EbookToSubcategories")
+
+  // Relations
+  Ebook Ebook[] @relation("EbookCategory")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([slug])
+}
+
+model Ebook {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  thumbnail   String?
+  pdfFile     String
+  status      Status  @default(ACTIVE)
+
+  // SEO meta fields
+  metaTitle       String? @db.VarChar(70)
+  metaKeywords    String?
+  metaDescription String? @db.VarChar(160)
+
+  // Foreign Keys
+  categoryId  String
+  professorId String
+
+  // Relations
+  category  EbookCategory @relation("EbookCategory", fields: [categoryId], references: [id])
+  professor Faculty       @relation("EbookProfessor", fields: [professorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BlogCategory {
+  id        String  @id @default(cuid())
+  name      String
+  slug      String  @unique
+  isPopular Boolean @default(false)
+  status    Status  @default(ACTIVE)
+
+  // SEO meta fields
+  metaTitle       String? @db.VarChar(70)
+  metaKeywords    String?
+  metaDescription String? @db.VarChar(160)
+
+  // Foreign Keys
+  parentId String?
+
+  // Self-relation
+  parent        BlogCategory?  @relation("BlogToSubcategories", fields: [parentId], references: [id])
+  subcategories BlogCategory[] @relation("BlogToSubcategories")
+
+  // Relations
+  BlogPost BlogPost[] @relation("BlogCategory")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([slug])
+}
+
+model BlogPost {
+  id               String     @id @default(cuid())
+  title            String
+  slug             String     @unique
+  excerpt          String?
+  content          String
+  featuredImage    String?
+  featuredImageAlt String?
+  publishedAt      DateTime?
+  readTimeMinutes  Int?
+  status           BlogStatus @default(DRAFT)
+
+  // SEO meta fields
+  metaTitle       String? @db.VarChar(70)
+  metaKeywords    String?
+  metaDescription String? @db.VarChar(160)
+
+  // Foreign Keys
+  authorId   String
+  categoryId String
+
+  // Relations
+  author   User         @relation("BlogAuthor", fields: [authorId], references: [id])
+  category BlogCategory @relation("BlogCategory", fields: [categoryId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+}
+
+model ContactMessage {
+  id      String  @id @default(cuid())
+  name    String
+  email   String  @db.VarChar(255)
+  phone   String? // Optional because not all users will provide it
+  subject String? // Optional if your form allows
+  message String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Faq {
+  id         String @id @default(cuid())
+  question   String
+  answer     String
+  preference Int    @default(0)
+  status     Status @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Page {
+  id      String  @id @default(cuid())
+  title   String
+  banner  String?
+  content String
+  status  Status  @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Testimonial {
+  id      String  @id @default(cuid())
+  name    String
+  role    String?
+  image   String?
+  content String
+  rating  Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notice {
+  id      String @id @default(cuid())
+  content String @db.VarChar(300)
+  status  Status @default(ACTIVE)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Banner {
+  id      String     @id @default(cuid())
+  type    BannerType @default(IMAGE) // IMAGE or VIDEO
+  fileUrl String // Path or URL for image/video
+  altText String? // Optional alt text for accessibility/SEO
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model WebsiteSetting {
+  id              String  @id @default(cuid())
+  applicationName String
+  tagline         String? // Company tagline or short description
+  bannerText      String? // Optional banner/hero text
+  supportEmail    String
+  supportPhone    String?
+  companyAddress  String?
+  logo            String // URL or file path
+  favicon         String? // URL or file path
+
+  // SEO meta fields
+  metaTitle       String? @db.VarChar(70)
+  metaKeywords    String?
+  metaDescription String? @db.VarChar(160)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
