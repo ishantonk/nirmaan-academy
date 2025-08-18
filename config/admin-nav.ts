@@ -25,7 +25,9 @@ export type AdminSlug =
   | "add-course"
   | "ebooks"
   | "add-ebook"
-  | "ebooks-categories"
+  | "ebook-categories"
+  | "faculties"
+  | "add-faculty"
   | "faqs"
   | "add-faq"
   | "pages"
@@ -138,6 +140,46 @@ export const adminNavItems: AdminNavItem[] = [
         slug: "*",
         description: "View and manage all e-books",
         icon: FileText,
+      },
+      {
+        title: "E-Book Categories",
+        slug: "ebook-categories",
+        description: "Manage e-book categories",
+        icon: Layers,
+        subItems: [
+          {
+            title: "Add Category",
+            slug: "add-category",
+            description: "Create a new e-book category",
+            icon: FilePlus,
+          },
+          {
+            title: "All Categories",
+            slug: "*",
+            description: "View and manage all e-book categories",
+            icon: Layers,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    title: "Faculties",
+    slug: "faculties",
+    description: "Manage faculty members and their details",
+    icon: Users,
+    subItems: [
+      {
+        title: "Add Faculty",
+        slug: "add-faculty",
+        description: "Create a new faculty member entry",
+        icon: UserPlus,
+      },
+      {
+        title: "All Faculties",
+        slug: "*",
+        description: "View and manage all faculty members",
+        icon: Users,
       },
     ],
   },

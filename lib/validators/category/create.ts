@@ -20,4 +20,4 @@ export const CreateCategorySchema = CategoryBaseSchema.superRefine(
     }
 );
 
-export type CreateCategoryInput = z.infer<typeof CreateCategorySchema>;
+export type CreateCategoryInput = z.input<typeof CreateCategorySchema>;

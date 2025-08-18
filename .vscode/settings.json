@@ -6,7 +6,8 @@
         "apply",
         "cuid",
         "daisyui",
-        "sonner"
+        "sonner",
+        "turbopack"
     ],
     "cSpell.words": [
         "pendrive"
