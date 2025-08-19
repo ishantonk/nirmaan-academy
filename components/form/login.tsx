@@ -42,6 +42,7 @@ export default function LoginForm() {
         }
 
         // window.location.href = callbackUrl;
+        // todo: add callback for back to page before login
     }
 
     return (
