@@ -10,4 +10,4 @@ export const AttemptListQuerySchema = z.object({
     order: z.enum(["asc", "desc"]).default("desc"),
 });
 
-export type AttemptListQuery = z.infer<typeof AttemptListQuerySchema>;
+export type AttemptListQueryInput = z.infer<typeof AttemptListQuerySchema>;

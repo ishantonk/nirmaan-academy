@@ -8,3 +8,5 @@ const SiteInfo = {
 };
 
 export default SiteInfo;
+
+// todo: delete this file get info from db

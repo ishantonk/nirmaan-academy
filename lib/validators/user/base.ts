@@ -1,20 +1,29 @@
 import { z } from "zod";
+import { nameSchema, optionalTrimmedString, passwordSchema } from "../utils";
+
+export const UserRoleEnum = z.enum(["STUDENT", "ADMIN"]);
 
 export const UserBaseSchema = z.object({
-    name: z
-        .string()
-        .min(2, "Name must be at least 2 characters")
-        .max(150)
-        .optional(),
-    email: z.string().email("Invalid email").optional(),
-    emailVerified: z.date().optional(),
-    password: z
-        .string()
-        .min(6, "Password must be at least 6 characters")
-        .optional(),
-    image: z.string().url("Invalid image URL").optional(),
-    role: z.enum(["STUDENT", "ADMIN"]).default("STUDENT").optional(),
-    bio: z.string().max(500, "Bio cannot exceed 500 characters").optional(),
+  name: nameSchema,
+  email: z
+    .string()
+    .trim()
+    .email({ message: "Invalid email format" })
+    .max(255)
+    .optional(),
+  phone: z
+    .string()
+    .regex(/^\+?[0-9]{10,14}$/, { message: "Invalid phone number" })
+    .optional(),
+  emailVerified: z.preprocess(
+    (val) => (typeof val === "string" ? new Date(val) : val),
+    z.date().optional()
+  ),
+  password: passwordSchema.optional(),
+  image: z.string().url({ message: "Image must be a valid URL" }).optional(),
+  role: UserRoleEnum.default("STUDENT"),
+
+  bio: optionalTrimmedString(500),
 });
 
 export type UserBaseInput = z.infer<typeof UserBaseSchema>;

@@ -1,10 +1,13 @@
-import { z } from "zod";
+import z from "zod";
 import { UserBaseSchema } from "./base";
 
 export const CreateUserSchema = UserBaseSchema.extend({
-    name: z.string().min(2, "Name is required"),
-    email: z.string().email("Email is required"),
-    password: z.string().min(6, "Password is required"),
+  email: UserBaseSchema.shape.email.refine((val) => !!val, {
+    message: "Email is required",
+  }),
+  password: UserBaseSchema.shape.password.refine((val) => !!val, {
+    message: "Password is required",
+  }),
 });
 
 export type CreateUserInput = z.infer<typeof CreateUserSchema>;

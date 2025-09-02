@@ -1,17 +1,18 @@
 import { z } from "zod";
-import { CourseStatusEnum } from "./base";
+import { optionalTrimmedString, optionalCuid } from "../utils";
 
 export const CourseListQuerySchema = z.object({
-    q: z.string().trim().max(120).optional(),
-    status: CourseStatusEnum.optional(),
-    isTrending: z.boolean().optional(),
-    onSale: z.boolean().optional(),
-    categoryId: z.string().cuid().optional(),
-    cursor: z.string().cuid().optional(),
-    take: z.number().int().min(1).max(100).default(20),
-    orderBy: z
-        .enum(["createdAt", "updatedAt", "title", "priority"])
-        .default("createdAt"),
-    order: z.enum(["asc", "desc"]).default("desc"),
+  q: optionalTrimmedString(191), // search by title or description
+  categoryId: optionalCuid,
+  status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]).optional(),
+  isTrending: z.boolean().optional(),
+  onSale: z.boolean().optional(),
+  cursor: optionalCuid,
+  take: z.number().int().min(1).max(100).default(20),
+  orderBy: z
+    .enum(["createdAt", "updatedAt", "title", "priority"])
+    .default("createdAt"),
+  order: z.enum(["asc", "desc"]).default("desc"),
 });
-export type CourseListQuery = z.infer<typeof CourseListQuerySchema>;
+
+export type CourseListQueryInput = z.infer<typeof CourseListQuerySchema>;
